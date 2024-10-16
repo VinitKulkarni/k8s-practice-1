@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Git Pull') {
+            steps {
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/VinitKulkarni/HelloworldDockerProject.git'
+            }
+        }
+        
+        stage('Docker Build') {
+            steps {
+                sh "docker build -t vinitkulkarni/helloworldhtml:latest ."
+            }
+        }
+        
+        stage('Docker Run') {
+            steps {
+                sh "docker stop myhelloworld"
+                sh "sleep 10" //wait for complete stop
+                sh "docker rm myhelloworld"
+                sh "sleep 15" //adding these bcz it should release the port so i can use again
+                sh "docker run --name myhelloworld -d -p 3000:80 vinitkulkarni/helloworldhtml:latest"
+            }
+        }
+    }
+}

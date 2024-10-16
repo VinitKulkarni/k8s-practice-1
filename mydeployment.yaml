@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thisdeployment
+  labels:
+    app: mydeployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mydeployment
+  template:
+    metadata:
+      labels:
+        app: mydeployment
+    spec:
+      containers:
+      - name: mysecondcontainer
+        image: vinitkulkarni/test:1.3 
